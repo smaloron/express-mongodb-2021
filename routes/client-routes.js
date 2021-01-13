@@ -2,6 +2,19 @@ const router = require('express').Router();
 const Client = require('../models/client-model');
 const app = require('./movie-routes');
 
+router.get('/', async (req, res) => {
+  const clients = await Client.find();
+  console.log(clients[0].fullName);
+  res.status(200).json(clients);
+});
+
+router.get('/adults', async (req, res) => {
+  const clients = await Client.find()
+    .select('name firstName age')
+    .where('age')
+    .gt(18);
+  res.status(200).json(clients);
+});
 router.get('/test', async (req, res) => {
   // Instanciation d'un client
   const newClient = new Client();
@@ -19,9 +32,13 @@ router.get('/test', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const newClient = new Client(req.body);
-  const result = await newClient.save();
-  res.status(200).json(result);
+  try {
+    const newClient = new Client(req.body);
+    const result = await newClient.save();
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.put('/:id', async (req, res) => {
