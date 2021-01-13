@@ -1,0 +1,5 @@
+- Sur home 
+  - afficher le nombre de compétences et le nombre de participants
+  - Supprimer une formation
+  - Modifier une formation
+- Sur form : ajouter des participants
