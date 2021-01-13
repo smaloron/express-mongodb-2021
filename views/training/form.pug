@@ -1,0 +1,30 @@
+extends ../layout
+
+block js
+    script(src="/training-form.js")
+
+block content
+    form(method="post")
+            div(class="form-group")
+                label Titre
+                input(type="text" name="title" class="form-control")
+            div(class="form-group")
+                label Sigle
+                input(type="text" name="code" class="form-control")
+            div(class="form-group")
+                label Date de début
+                input(type="date" name="startingDate" class="form-control")
+            div(class="form-group")
+                label Date de fin
+                input(type="date" name="endingDate" class="form-control")
+            div(id="skillsContainer")
+                h3 Liste des compétences
+                div(class="text-right mb-3")
+                    button(type="button" id="btAddSkill" class="btn btn-primary") Ajouter une compétence
+                div(class="form-group" id="skillTemplate")
+                    input(type="text" 
+                    placeholder="Votre compétence" 
+                    name="skills[]"
+                    class="form-control")
+
+            button(type="submit"  class="btn btn-block btn-primary") Valider

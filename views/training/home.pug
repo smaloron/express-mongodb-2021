@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    h1 Liste des formations
+    table(class="table table-bordered")
+        tr
+            th Titre
+            th Sigle
+        each training in trainingList
+            tr
+                td= training.title
+                td= training.code
