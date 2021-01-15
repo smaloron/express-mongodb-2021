@@ -1,12 +1,27 @@
 extends ../layout
 
 block content
-    h1 Liste des formations
-    table(class="table table-bordered")
-        tr
-            th Titre
-            th Sigle
-        each training in trainingList
+    div(class="row justify-content-around")
+        div(class="col-md-6")
+            h1 Liste des formations
+        div(class="col-md-4 text-right")
+            a(href="/formation/form" class="btn btn-primary") Nouvelle formation
+    div(class="col-12")
+        table(class="table table-bordered")
             tr
-                td= training.title
-                td= training.code
+                th Titre
+                th Sigle
+                th nb compétences
+                th nb participants
+                th Actions
+            each training in trainingList
+                tr
+                    td= training.title
+                    td= training.code
+                    td= training.skills.length
+                    td= training.trainees.length
+                    td
+                        a(href='/formation/delete/'+training._id 
+                        class="btn btn-danger mb-3 btn-block") Supprimer
+                        a(href='/formation/form/'+training._id 
+                        class="btn btn-primary btn-block") Modifier

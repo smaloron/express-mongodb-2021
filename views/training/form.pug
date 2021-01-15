@@ -4,27 +4,107 @@ block js
     script(src="/training-form.js")
 
 block content
-    form(method="post")
+    form(method="post" action="/formation/form")
             div(class="form-group")
                 label Titre
-                input(type="text" name="title" class="form-control")
+                input(type="text" name="title" class="form-control" value=training?training.title:'')
             div(class="form-group")
                 label Sigle
-                input(type="text" name="code" class="form-control")
+                input(type="text" name="code" class="form-control"
+                value=training?training.code:'')
             div(class="form-group")
                 label Date de début
-                input(type="date" name="startingDate" class="form-control")
+                input(type="date" name="startingDate" class="form-control"
+                value=training?training.startingDate.toISOString().split('T')[0]:'')
             div(class="form-group")
                 label Date de fin
-                input(type="date" name="endingDate" class="form-control")
+                input(type="date" name="endingDate" class="form-control"
+                value=training?training.endingDate.toISOString().split('T')[0]:'')
             div(id="skillsContainer")
                 h3 Liste des compétences
                 div(class="text-right mb-3")
                     button(type="button" id="btAddSkill" class="btn btn-primary") Ajouter une compétence
-                div(class="form-group" id="skillTemplate")
-                    input(type="text" 
-                    placeholder="Votre compétence" 
-                    name="skills[]"
-                    class="form-control")
+                if training && training.skills 
+                    each skill, pos in training.skills
+                        div(class="row"  id=pos==0?'skillTemplate':'')
+                            div(class="col-9")
+                                div(class="form-group")
+                                    input(type="text" 
+                                    placeholder="Votre compétence" 
+                                    name="skills[]"
+                                    class="form-control"
+                                    value=skill)
+                            div(class="col-3")
+                                button(type="button" class="btn btn-danger btn-block delete") Supprimer
+                else
+                    div(class="row"  id="skillTemplate")
+                        div(class="col-9")
+                            div(class="form-group")
+                                input(type="text" 
+                                placeholder="Votre compétence" 
+                                name="skills[]"
+                                class="form-control"
+                                )
+                        div(class="col-3")
+                            button(type="button" class="btn btn-danger btn-block delete") Supprimer
+            div(id="traineesContainer")
+                h3 Liste des participants
+                div(class="text-right mb-3")
+                    button(type="button" id="btAddTrainee" class="btn btn-primary") Ajouter un participant
+                if training && training.trainees && training.trainees.length > 0
+                    each trainee, pos in training.trainees || []
+                        div(class="row"  id=pos==0?'traineeTemplate':'')
+                            div(class="col-6")
+                                div(class="form-group")
+                                    input(type="text" 
+                                    placeholder="Votre nom" 
+                                    name="trainees[][name]"
+                                    class="form-control"
+                                    value=trainee.name)
+                            div(class="col-6")
+                                div(class="form-group")
+                                    input(type="text" 
+                                    placeholder="Votre prénom" 
+                                    name="trainees[][firstName]"
+                                    class="form-control"
+                                    value=trainee.firstName)
+                            div(class="col-9")
+                                div(class="form-group")
+                                    input(type="date" 
+                                    placeholder="Votre date de naissance" 
+                                    name="trainees[][birthDate]"
+                                    class="form-control"
+                                    value=trainee.birthDate?trainee.birthDate.toISOString().split('T')[0]:'')
+                            div(class="col-3")
+                                button(type="button" class="btn btn-danger btn-block delete") Supprimer
+                else
+                    div(class="row"  id="traineeTemplate")
+                        div(class="col-6")
+                            div(class="form-group")
+                                input(type="text" 
+                                placeholder="Votre nom" 
+                                name="trainees[][name]"
+                                class="form-control"
+                                )
+                        div(class="col-6")
+                            div(class="form-group")
+                                input(type="text" 
+                                placeholder="Votre prénom" 
+                                name="trainees[][firstName]"
+                                class="form-control"
+                                )
+                        div(class="col-9")
+                            div(class="form-group")
+                                input(type="date" 
+                                placeholder="Votre date de naissance" 
+                                name="trainees[][birthDate]"
+                                class="form-control"
+                                )
+                        div(class="col-3")
+                            button(type="button" class="btn btn-danger btn-block delete") Supprimer
+
+            if training && training._id
+                input(type="hidden" name="_id" value=training._id)
+
 
             button(type="submit"  class="btn btn-block btn-primary") Valider
