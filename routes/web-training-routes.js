@@ -11,11 +11,10 @@ router.post('/form', async (req, res) => {
   try {
     let training = {};
 
-    console.log(req.body);
-
     const newTrainees = [];
     const data = req.body.trainees[0] || [];
-    if (data.length > 1) {
+
+    if (0 in data.name) {
       for (val of data.name) {
         newTrainees.push({ name: val });
       }
@@ -25,7 +24,9 @@ router.post('/form', async (req, res) => {
       }
 
       for (index in data.birthDate) {
-        newTrainees[index].birthDate = new Date(data.birthDate[index]);
+        if (data.birthDate[index]) {
+          newTrainees[index].birthDate = new Date(data.birthDate[index]);
+        }
       }
     } else {
       newTrainees.push(data);
